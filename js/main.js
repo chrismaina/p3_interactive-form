@@ -58,6 +58,8 @@ function update() {
   for (var i = 0; i < checkbox.length; i++) {
     if (checkbox[i].checked) {
       sum += parseInt(checkbox[i].getAttribute('value'));
+      var container = document.getElementById("error-container");
+      container.innerHTML = ""
       }
    }
    var h3 = document.getElementById("total")
@@ -70,7 +72,7 @@ for (var i = 0; i < checkbox.length; i++) {
   checkbox[i].addEventListener('change', update);
 }
 
-var checkbox = function (i, e) {
+var checkboxFunc = function (i, e) {
   var checkbox = document.querySelectorAll('input[type=checkbox]');
   var unavailable = document.createTextNode(" - UNAVAILABLE");
   checkbox[i].addEventListener("click", function() {
@@ -86,10 +88,10 @@ var checkbox = function (i, e) {
 );
 }
 
-checkbox(1, 3);
-checkbox(3, 1);
-checkbox(2, 4);
-checkbox(4, 2);
+checkboxFunc(1, 3);
+checkboxFunc(3, 1);
+checkboxFunc(2, 4);
+checkboxFunc(4, 2);
 
 // hide and show payments options
 var payment = document.getElementById("payment");
@@ -126,6 +128,7 @@ payment.addEventListener("change", function() {
 // validate submit form
 var form = document.getElementById("form");
 var email = document.getElementById("mail").value;
+
 
 form.addEventListener("submit", function(evt) {
   var name = document.getElementById("name");
@@ -164,18 +167,14 @@ form.addEventListener("submit", function(evt) {
        cvv.style.borderColor = "";
      }
 
+     var container = document.getElementById("error-container");
+     if (document.querySelectorAll("input[type=checkbox]:checked").length == 0) {
+        evt.preventDefault();
+        container.innerHTML = "<h3>Choose at least one activity.</h3>"
+        container.style.color = "crimson";
+      } else {
+        container.innerHTML = ""
+      }
 
-     var error = document.createElement('h3')
-     error.id = "error"
-     error.style.color = "crimson"
-     var fieldsetAct = document.getElementById("activities");
-     fieldsetAct.appendChild(error)
-    if (document.querySelectorAll("input[type=checkbox]:checked").length == 0) {
-       evt.preventDefault();
-       error.textContent = "Choose at least one activity."
-     } else {
-       var error = document.getElementById("error")
-       fieldsetAct.removeChild(error)
-     }
 
 })
